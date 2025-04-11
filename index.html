@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #f0f8ff;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+        }
+
+        .button-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        button {
+            padding: 15px 25px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            background-color: #4CAF50;
+            color: white;
+            transition: background-color 0.2s;
+        }
+
+        button:hover:enabled {
+            background-color: #45a049;
+        }
+
+        button:disabled {
+            background-color: #999;
+            cursor: not-allowed;
+        }
+
+        #result {
+            margin-top: 40px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        #play-again {
+            margin-top: 30px;
+            display: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        #play-again:hover {
+            background-color: #0072a3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pick a Button (1–10)</h1>
+    <div class="button-grid" id="button-grid">
+        <!-- Buttons will be created here -->
+    </div>
+    <div id="result"></div>
+    <button id="play-again" onclick="location.reload()">Play Again</button>
+
+    <script>
+        const winningNumber = Math.floor(Math.random() * 10) + 1;
+        const buttonGrid = document.getElementById('button-grid');
+        const resultDiv = document.getElementById('result');
+        const playAgainBtn = document.getElementById('play-again');
+
+        function endGame(won) {
+            const buttons = document.querySelectorAll('.button-grid button');
+            buttons.forEach(btn => btn.disabled = true);
+            playAgainBtn.style.display = 'inline-block';
+            if (won) {
+                resultDiv.textContent = "🎉 You won!";
+                resultDiv.style.color = "green";
+            } else {
+                resultDiv.textContent = "😢 Aw man, too bad you suck. Better luck next time!";
+                resultDiv.style.color = "red";
+            }
+        }
+
+        for (let i = 1; i <= 10; i++) {
+            const btn = document.createElement('button');
+            btn.textContent = i;
+            btn.onclick = () => {
+                const won = i === winningNumber;
+                endGame(won);
+            };
+            buttonGrid.appendChild(btn);
+        }
+    </script>
+</body>
+</html>
